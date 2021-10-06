@@ -1,6 +1,5 @@
 import 'package:xml/xml.dart';
 
-
 const keyName = 'name';
 
 const attributeName = 'name';
@@ -17,8 +16,6 @@ const attributeMaxOccurs = 'maxOccurs';
 const attributeDefault = 'default';
 const attributeRef = 'ref';
 
-
-
 /// Given a certain list of attributes (attributeList is in the format
 /// {attributeName (with namespace) : mandatory (true|false)}) the method return a map
 /// in format {attributeName: value}
@@ -29,7 +26,9 @@ Map<String, String> extractAttributes(XmlElement element,
   var ret = <String, String>{};
   var attributes = element.attributes;
   for (var attribute in attributes) {
-    if (attribute.name.prefix == 'xmlns' || attribute.name.prefix == 'xsi') {
+    if (attribute.name.prefix == 'xmlns' ||
+        attribute.name.qualified == 'xmlns' ||
+        attribute.name.prefix == 'xsi') {
       continue;
     }
     if (attributesList.containsKey(attribute.name.local)) {
@@ -53,7 +52,6 @@ Map<String, String> extractAttributes(XmlElement element,
   }
   return ret;
 }
-
 
 /// returns a map with pairs element name -> XmlElement | List<XmlElement>
 Map<String, dynamic> extractChildren(XmlElement parent) {
